@@ -9,19 +9,20 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='django-server-config-generator',
+    url='https://github.com/Afsal-qburst/django-server-config-generator',
     version='0.1',
     packages=find_packages(),
     include_package_data=True,
     license='BSD License',
     description='A simple Django app to create server config',
     long_description=README,
+    long_description_content_type="text/markdown",
     author='Afsal Salim',
     author_email='afsals@qburst.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
-        'Framework :: Django :: 2.X',
-        'Intended Audience :: Developers, Devops',
+        'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
