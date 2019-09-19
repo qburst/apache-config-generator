@@ -10,7 +10,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-server-config-generator',
     url='https://github.com/Afsal-qburst/django-server-config-generator',
-    version='0.4.1',
+    version='0.5',
     packages=find_packages(),
     include_package_data=True,
     description='A simple Django app to create server config',
