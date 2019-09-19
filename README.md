@@ -7,8 +7,8 @@ Django server config generator is a simple django extension which generates apac
 $ pip install django-server-config-generator
 
 ## Requirements
-Python3.6+
-Apache2.4
+ - Python3.6+
+ - Apache2.4
 ## Usage
 
  - Add **server_config_generator** in your installed app
