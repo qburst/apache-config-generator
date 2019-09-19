@@ -10,10 +10,9 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 setup(
     name='django-server-config-generator',
     url='https://github.com/Afsal-qburst/django-server-config-generator',
-    version='0.2',
+    version='0.3',
     packages=find_packages(),
     include_package_data=True,
-    license='BSD License',
     description='A simple Django app to create server config',
     long_description=README,
     long_description_content_type="text/markdown",
@@ -27,5 +26,7 @@ setup(
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.6'
+        "License :: OSI Approved :: MIT License",
     ],
+    python_requires='>=3.6',
 )
