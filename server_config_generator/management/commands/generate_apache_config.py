@@ -74,10 +74,15 @@ class Command(BaseCommand):
         @params: Instance
         @return: Boolean, True if both static and media root configured
         """
+        has_warning = False
         if not settings.STATIC_ROOT:
             self.log_message("\nWarning: Static root not configured \n", 'WARNING')
+            has_warning = True
         if not settings.MEDIA_ROOT:
             self.log_message("\nWarning: Media root not configured \n", 'WARNING')
+            has_warning = True
+        if not has_warning:
+            return True
         user_input = input("\n 1. Press Q to quit \n 2. Press any key to continue \n")
         if user_input.upper() == "Q":
             return False
@@ -98,13 +103,13 @@ class Command(BaseCommand):
             config_file.writelines(f"\tDocumentRoot {self.document_root}\n\n")
             if settings.STATIC_ROOT:
                 config_file.writelines(
-                    f"\tAlias {settings.STATIC_URL} {settings.STATIC_ROOT}\n")
+                    f"\tAlias {settings.STATIC_URL} {settings.STATIC_ROOT}/ \n")
                 config_file.writelines(f"\t<Directory {settings.STATIC_ROOT}>\n")
                 config_file.writelines(f"\t\tRequire all granted\n")
                 config_file.writelines(f"\t</Directory>\n\n")
             if settings.MEDIA_ROOT:
                 config_file.writelines(
-                    f"\tAlias {settings.MEDIA_URL} {settings.MEDIA_ROOT}\n")
+                    f"\tAlias {settings.MEDIA_URL} {settings.MEDIA_ROOT}/ \n")
                 config_file.writelines(f"\t<Directory {settings.MEDIA_ROOT}>\n")
                 config_file.writelines(f"\t\tRequire all granted\n")
                 config_file.writelines(f"\t</Directory>\n\n")
