@@ -4,13 +4,7 @@ import site
 from django.core.management import BaseCommand
 from django.conf import settings
 
-ANSI_COLOR_START = {
-    'INFO': '\033[34m', # Blue Ansi
-    'WARNING': '\033[33m', # light yellow background
-    'ERROR': '\033[1;31m', #Bold red
-}
-
-ANSI_COLOR_END = '\033[0m'
+from server_config_generator.coloured_sys_out import ColouredSysOut
 
 class Command(BaseCommand):
     """
@@ -22,7 +16,7 @@ class Command(BaseCommand):
         """
         Django handle method
         """
-        self.log_message("***Start***\n", 'INFO')
+        ColouredSysOut.log_message("***Start***\n", 'blue')
         self.get_server_name()
         want_to_continue = self.check_static_and_media_root()
         if not want_to_continue:
@@ -38,19 +32,6 @@ class Command(BaseCommand):
         self.log_message(
             "\n***Please verify {}.conf in root folder***\n".format(self.server_name),
             'INFO')
-
-    def log_message(self, message, log_type):
-        """
-        Method to change the color of the log based on the log type, ie
-        if it is an error log make it red
-        @params message: Given message
-        @params log_type: Severity of the message
-        @return None
-        @prints message in specified color
-        """
-        colored_message = "{}{}{}".format(ANSI_COLOR_START[log_type],
-            message, ANSI_COLOR_END)
-        sys.stdout.write(colored_message)
 
     def get_server_name(self):
         """
