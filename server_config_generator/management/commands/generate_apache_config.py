@@ -16,7 +16,7 @@ class Command(BaseCommand):
         """
         Django handle method
         """
-        ColouredSysOut.log_message("***Start***\n", 'blue')
+        ColouredSysOut.log_message("***Start***", 'blue')
         self.get_server_name()
         want_to_continue = self.check_static_and_media_root()
         if not want_to_continue:
@@ -29,9 +29,8 @@ class Command(BaseCommand):
             "/lib/python{}.{}/site-packages".format(sys.version_info.major,
                 sys.version_info.minor)
         self.generate_conf_file()
-        self.log_message(
-            "\n***Please verify {}.conf in root folder***\n".format(self.server_name),
-            'INFO')
+        ColouredSysOut.log_message("***Please verify {}.conf in root folder***".format(
+            self.server_name), "blue")
 
     def get_server_name(self):
         """
@@ -45,7 +44,7 @@ class Command(BaseCommand):
             server_name = input("Enter the server name: ")
             server_name = server_name.strip()
             if not server_name:
-                self.log_message("\nServer name is mandatory\n", 'ERROR')
+                ColouredSysOut.log_message("Server name is mandatory", "red")
             else:
                 self.server_name = server_name
 
@@ -57,10 +56,10 @@ class Command(BaseCommand):
         """
         has_warning = False
         if not settings.STATIC_ROOT:
-            self.log_message("\nWarning: Static root not configured \n", 'WARNING')
+            ColouredSysOut.log_message("Warning: Static root not configured", "yellow")
             has_warning = True
         if not settings.MEDIA_ROOT:
-            self.log_message("\nWarning: Media root not configured \n", 'WARNING')
+            ColouredSysOut.log_message("Warning: Media root not configured", "yellow")
             has_warning = True
         if not has_warning:
             return True

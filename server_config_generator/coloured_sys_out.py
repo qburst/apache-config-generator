@@ -28,5 +28,5 @@ class ColouredSysOut(object):
         @prints Sys out message in specified color
         """
         color_start = cls.ANSI_COLOR_START.get(color, cls.ANSI_COLOR_START.get("default"))
-        colored_message = f"{color_start}{message}{cls.ANSI_COLOR_END}"
+        colored_message = f"\n{color_start}{message}{cls.ANSI_COLOR_END}\n"
         sys.stdout.write(colored_message)
