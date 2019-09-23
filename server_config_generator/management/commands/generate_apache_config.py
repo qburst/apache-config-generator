@@ -1,8 +1,10 @@
 import sys
 import re
+import os
 
 from django.core.management import BaseCommand
 from django.conf import settings
+from django.template.loader import get_template 
 
 from server_config_generator.coloured_sys_out import ColouredSysOut
 
@@ -22,23 +24,22 @@ class Command(BaseCommand):
             Django handle method for management command
 
         """
-        
         ColouredSysOut.log_message("***Start***", 'blue')
-        self.get_server_name_or_ip()
-        is_static_and_media_configured = self.check_static_and_media_root_configured()
-        if not is_static_and_media_configured:
-            user_input = input("\n 1. Press q to quit \n 2. Press any key to continue \n")
-            if self.validate_input_with_pre_defined_options(user_input, "q"):
-                sys.exit()
-        self.get_port()
-        self.project_name, _ = settings.SETTINGS_MODULE.split('.')
-        self.document_root = settings.BASE_DIR + "/" + self.project_name
-        self.path_to_site_packages = sys.prefix + \
-            "/lib/python{}.{}/site-packages".format(sys.version_info.major,
-                sys.version_info.minor)
+        # self.get_server_name_or_ip()
+        # is_static_and_media_configured = self.check_static_and_media_root_configured()
+        # if not is_static_and_media_configured:
+        #     user_input = input("\n 1. Press q to quit \n 2. Press any key to continue \n")
+        #     if self.validate_input_with_pre_defined_options(user_input, "q"):
+        #         sys.exit()
+        # self.get_port()
+        # self.project_name, _ = settings.SETTINGS_MODULE.split('.')
+        # self.document_root = settings.BASE_DIR + "/" + self.project_name
+        # self.path_to_site_packages = sys.prefix + \
+        #     "/lib/python{}.{}/site-packages".format(sys.version_info.major,
+        #         sys.version_info.minor)
         self.generate_conf_file()
-        ColouredSysOut.log_message("***Please verify {}.conf in root folder***".format(
-            self.server_name), "blue")
+        # ColouredSysOut.log_message("***Please verify {}.conf in root folder***".format(
+        #     self.project_name), "blue")
 
     @staticmethod
     def validate_input_with_pre_defined_options(user_input, valid_options):
@@ -165,36 +166,61 @@ class Command(BaseCommand):
         return is_configured
     
     def generate_conf_file(self):
+
         """
-        Method to generate config file with servername
-        @params: Instance
-        @return: None
-        Generates conf file with given servername in root folder
-        ie if servername is test then test.conf is generated in root folder
+        
+            Method to generate config file with servername
+            @params: Instance
+            @return: None
+            Generates conf file with given servername in root folder
+            ie if servername is test then test.conf is generated in root folder
+
         """
-        with open(self.project_name + '.conf', 'w+') as config_file:
-            config_file.writelines("<VirtualHost *:80>\n")
-            config_file.writelines(f"\tServerName {self.server_name}\n")
-            config_file.writelines(f"\tDocumentRoot {self.document_root}\n\n")
-            if settings.STATIC_ROOT:
-                config_file.writelines(
-                    f"\tAlias {settings.STATIC_URL} {settings.STATIC_ROOT}/ \n")
-                config_file.writelines(f"\t<Directory {settings.STATIC_ROOT}>\n")
-                config_file.writelines(f"\t\tRequire all granted\n")
-                config_file.writelines(f"\t</Directory>\n\n")
-            if settings.MEDIA_ROOT:
-                config_file.writelines(
-                    f"\tAlias {settings.MEDIA_URL} {settings.MEDIA_ROOT}/ \n")
-                config_file.writelines(f"\t<Directory {settings.MEDIA_ROOT}>\n")
-                config_file.writelines(f"\t\tRequire all granted\n")
-                config_file.writelines(f"\t</Directory>\n\n")
-            config_file.writelines(f"\t<Directory {self.document_root}>\n")
-            config_file.writelines(f"\t\t<Files wsgi.py>\n")
-            config_file.writelines(f"\t\t\tRequire all granted\n")
-            config_file.writelines(f"\t\t</Files>\n")
-            config_file.writelines(f"\t</Directory>\n\n")
-            config_file.writelines(f"\tWSGIDaemonProcess {self.server_name} " + \
-                f"python-path={settings.BASE_DIR}:{self.path_to_site_packages}\n\n")
-            config_file.writelines(f"\tWSGIProcessGroup {self.server_name}\n")
-            config_file.writelines(f"\tWSGIScriptAlias / {self.document_root}/wsgi.py\n\n")
-            config_file.writelines("</VirtualHost>\n")
+        # from django.template.loader import get_template_from_string
+        from django.template import Template
+        from django.template import Context
+
+
+        self.server_name = "servername"
+        self.ip = "10.6.16.12"
+
+        config_dir_path = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(config_dir_path, 'config_templates/apache/apache_http_only.html')
+        with open(path, 'r') as f:
+            content = [line for line in f]
+        content_string = "\n".join(content)
+        template = Template(content_string)
+        conf = template.render(Context({"obj": self}))
+        print(conf)
+        print("*******************")
+        # with open(path) as f:
+        #     for i in f:
+        #         print(i)
+        #         print("----------")
+
+        # with open(self.project_name + '.conf', 'w+') as config_file:
+        #     config_file.writelines("<VirtualHost *:80>\n")
+        #     config_file.writelines(f"\tServerName {self.server_name}\n")
+        #     config_file.writelines(f"\tDocumentRoot {self.document_root}\n\n")
+        #     if settings.STATIC_ROOT:
+        #         config_file.writelines(
+        #             f"\tAlias {settings.STATIC_URL} {settings.STATIC_ROOT}/ \n")
+        #         config_file.writelines(f"\t<Directory {settings.STATIC_ROOT}>\n")
+        #         config_file.writelines(f"\t\tRequire all granted\n")
+        #         config_file.writelines(f"\t</Directory>\n\n")
+        #     if settings.MEDIA_ROOT:
+        #         config_file.writelines(
+        #             f"\tAlias {settings.MEDIA_URL} {settings.MEDIA_ROOT}/ \n")
+        #         config_file.writelines(f"\t<Directory {settings.MEDIA_ROOT}>\n")
+        #         config_file.writelines(f"\t\tRequire all granted\n")
+        #         config_file.writelines(f"\t</Directory>\n\n")
+        #     config_file.writelines(f"\t<Directory {self.document_root}>\n")
+        #     config_file.writelines(f"\t\t<Files wsgi.py>\n")
+        #     config_file.writelines(f"\t\t\tRequire all granted\n")
+        #     config_file.writelines(f"\t\t</Files>\n")
+        #     config_file.writelines(f"\t</Directory>\n\n")
+        #     config_file.writelines(f"\tWSGIDaemonProcess {self.server_name} " + \
+        #         f"python-path={settings.BASE_DIR}:{self.path_to_site_packages}\n\n")
+        #     config_file.writelines(f"\tWSGIProcessGroup {self.server_name}\n")
+        #     config_file.writelines(f"\tWSGIScriptAlias / {self.document_root}/wsgi.py\n\n")
+        #     config_file.writelines("</VirtualHost>\n")
