@@ -14,7 +14,7 @@ $ pip install django-server-config-generator
  - Apache2.4
 ## Usage
 
- - Add **server_config_generator** in your installed app in settings file
+ - Add server_config_generator to your installed app in the settings file
 
 ```python
 	INSTALLED_APPS = (
@@ -27,12 +27,12 @@ $ pip install django-server-config-generator
 ```bash
 	$ python manage.py generate_apache_config 
 ```
- - User will be prompted to enter type of virtualhosting ie namebase or ipbased
+ - User will be prompted to enter the type of virtual hosting
 ```bash
 	Please enter name based or IP based hosting (name/ip):?
 ```
-- Enter a valid option and press enter
-- Then user will be prompted to enter either servername or ip based on the previous input
+- Enter a valid option and press 'Enter' key
+- Then the user will be prompted to enter the server name or the ip address based on the previous input
 ```bash
 	Enter the server name:
 ```
@@ -40,13 +40,13 @@ OR
 ```bash
 	Enter your IP: 
 ```
-- Enter valid servername or ip address
-- Then user will be prompted to enter portnumber, default will be 80
+- Enter a valid server name or ip address
+- Then the user will be prompted to enter port number, default value for which will be 80
 ```bash
 	Enter the port (default:80):
 ```
-- Enter required port and press enter incase of default just press enter
--  If STATIC_URL/STATIC_ROOT or MEDIA_URL/MEDIA_ROOT not configured user will notified with a warning message and wait for user confirnamtion
+- Enter the required port number and press the 'Enter' key. In the case of a default value just press 'Enter' key
+- If STATIC_URL/STATIC_ROOT or MEDIA_URL/MEDIA_ROOT is not configured, then the user will be notified with a warning message and the system will wait for the user confirmation
 ```bash
 	Warning: Static root/url not configured
 	Warning: Media root/url not configured
@@ -54,14 +54,14 @@ OR
 	 1. Press q to quit 
 	 2. Press any key to continue 
 ```
-- Press Enter to continue else press "q" and press enter
- - Verify the apache config file generated in root folder with name as <your_projectname.conf>
- - Copy the the conf file to apache site-available folder
- - Check configuration using apache command
- - Enable site
- - Reload apache
+- Press 'Enter' key to continue else press "q" and press 'Enter' key
+- Verify the Apache config file generated in root folder with name as <your_projectname.conf>
+- Copy the the conf file to the Apache site-available folder
+- Run configtest command
+- Enable the site
+- Reload Apache
 ## Communication
-- If you **found a bug**, open an issue.
+- If you **find a bug**, open an issue.
 - If you **have a feature request**, open an issue.
 - If you **want to contribute**, submit a pull request.
 
