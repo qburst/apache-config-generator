@@ -33,12 +33,12 @@ class Command(BaseCommand):
 
         ColouredSysOut.log_message("***Start***", 'blue')
         self.get_server_name_or_ip()
+        self.get_port()
         is_static_and_media_configured = self.check_static_and_media_root_configured()
         if not is_static_and_media_configured:
             user_input = input("\n 1. Press q to quit \n 2. Press any key to continue \n")
             if self.validate_input_with_pre_defined_options(user_input, "q"):
                 sys.exit()
-        self.get_port()
         self.project_name, _ = settings.SETTINGS_MODULE.split('.')
         self.document_root = settings.BASE_DIR + "/" + self.project_name
         self.path_to_site_packages = sys.prefix + \
