@@ -4,7 +4,10 @@
 Django server config generator is a simple django extension which generates apache config by running a management command, It automatically detects document root, static root/url, media root/url, and also the path to the current running virtual environment.
 
 ## Installation
+
+```bash
 $ pip install django-server-config-generator
+```
 
 ## Requirements
  - Python3.6+
