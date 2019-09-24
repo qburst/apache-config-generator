@@ -10,12 +10,9 @@ from server_config_generator.coloured_sys_out import ColouredSysOut
 
 
 class Command(BaseCommand):
-
     """
-        Management command to create apache config
-    
+    Management command to create apache config
     """
-
     static_url = settings.STATIC_URL
     static_root = settings.STATIC_ROOT
     media_url = settings.MEDIA_URL
