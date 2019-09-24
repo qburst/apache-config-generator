@@ -25,13 +25,9 @@ class Command(BaseCommand):
     help = "Management command to generate apache config automatically"
 
     def handle(self, *args, **options):
-
         """
-
-            Django handle method for management command
-
+        Django handle method for management command
         """
-
         ColouredSysOut.log_message("***Start***", 'blue')
         self.get_server_name_or_ip()
         self.get_port()
@@ -51,16 +47,12 @@ class Command(BaseCommand):
 
     @staticmethod
     def validate_input_with_pre_defined_options(user_input, valid_options):
-
         """
-
-            Method to check where use input in a valid option
-            @params user_input: Input from user
-            @params valid_options: Array of valid options
-            @return Boolean: True, if input is valid else false
-
+        Method to check where use input in a valid option
+        @params user_input: Input from user
+        @params valid_options: Array of valid options
+        @return Boolean: True, if input is valid else false
         """
-
         if user_input:
             user_input = user_input.lower()
             return user_input in valid_options
@@ -68,30 +60,22 @@ class Command(BaseCommand):
 
     @staticmethod
     def validate_ip_address(user_input):
-
         """
-
-            Method to check given input is valid ip
-            @params user_input: Input from user
-            @return Boolean: True, if it is valid ip else return false
-
+        Method to check given input is valid ip
+        @params user_input: Input from user
+        @return Boolean: True, if it is valid ip else return false
         """
-
         if re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", user_input):
             return True
         return False
 
     def get_server_name_or_ip(self):
-        
         """
-
-            Method to recieve server name from the user
-            @params self: Instance
-            @return None
-            Wait until user inputs servername
-
+        Method to recieve server name from the user
+        @params self: Instance
+        @return None
+        Wait until user inputs servername
         """
-        
         self.server_name = None
         self.ip = None
         self.ip_or_server_name = None
@@ -118,15 +102,11 @@ class Command(BaseCommand):
 
     @staticmethod
     def validate_port(user_input):
-
         """
-
-            Method to validate port number
-            @params user_input: Input from user
-            @return Boolean True, if input is valid port else False
-
+        Method to validate port number
+        @params user_input: Input from user
+        @return Boolean True, if input is valid port else False
         """
-
         try:
             port_number = int(user_input)
             return 1 <= port_number <= 65535
@@ -134,15 +114,11 @@ class Command(BaseCommand):
             return False
 
     def get_port(self):
-
         """
-
-            Method to recieve port from user
-            @params self: Instance
-            @return None
-
+        Method to recieve port from user
+        @params self: Instance
+        @return None
         """
-
         self.port = None
         while self.port is None:
             user_input = input("\nEnter the port (default:80):")
@@ -154,15 +130,11 @@ class Command(BaseCommand):
                 self.port = int(user_input)
 
     def check_static_and_media_root_configured(self):
-
         """
-
-            Method to check if user static root and media root is configured
-            @params self: Instance
-            @return Boolean, True if both static and media root configured
-
+        Method to check if user static root and media root is configured
+        @params self: Instance
+        @return Boolean, True if both static and media root configured
         """
-
         is_configured = True
         if not (self.static_url and self.static_root):
             ColouredSysOut.log_message("Warning: Static root/url not configured", "yellow")
@@ -173,17 +145,13 @@ class Command(BaseCommand):
         return is_configured
 
     def generate_conf_file(self):
-
         """
-        
-            Method to generate config file with servername
-            @params self: Instance
-            @return None
-            Generates conf file with your django project name root folder
-            ie if project name is test then test.conf is generated in root folder
-
+        Method to generate config file with servername
+        @params self: Instance
+        @return None
+        Generates conf file with your django project name root folder
+        ie if project name is test then test.conf is generated in root folder
         """
-
         template = get_template('apache/apache_http_only.tmpl')
         content = template.render({"obj": self})
         split = content.split('\n')
