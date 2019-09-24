@@ -9,11 +9,12 @@ from django.template.loader import get_template
 from server_config_generator.coloured_sys_out import ColouredSysOut
 
 class Command(BaseCommand):
-    
+
     """
         Management command to create apache config
     
     """
+
     static_url = settings.STATIC_URL
     static_root = settings.STATIC_ROOT
     media_url = settings.MEDIA_URL
@@ -24,7 +25,7 @@ class Command(BaseCommand):
     help = "Management command to generate apache config automatically"
     
     def handle(self, *args, **options):
-        
+
         """
 
             Django handle method for management command
@@ -50,7 +51,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def validate_input_with_pre_defined_options(user_input, valid_options):
-        
+
         """
 
             Method to check where use input in a valid option
@@ -59,7 +60,7 @@ class Command(BaseCommand):
             @return Boolean: True if input is valid else false
 
         """
-        
+
         if user_input:
             user_input = user_input.lower()
             return user_input in valid_options
@@ -67,7 +68,7 @@ class Command(BaseCommand):
 
     @staticmethod
     def validate_ip_address(user_input):
-        
+
         """
 
             Method to check given input is valid ip
@@ -75,7 +76,7 @@ class Command(BaseCommand):
             @return Boolean: True if it is valid ip else return false
 
         """
-        
+
         if re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", user_input):
             return True
         return False
@@ -162,6 +163,7 @@ class Command(BaseCommand):
             @return: Boolean, True if both static and media root configured
 
         """
+
         is_configured = True
         if not (self.static_url and self.static_root):
             ColouredSysOut.log_message("Warning: Static root/url not configured", "yellow")
@@ -182,6 +184,7 @@ class Command(BaseCommand):
             ie if project name is test then test.conf is generated in root folder
 
         """
+
         template = get_template('apache/apache_http_only.tmpl')
         content = template.render({"obj": self})
         split = content.split('\n')

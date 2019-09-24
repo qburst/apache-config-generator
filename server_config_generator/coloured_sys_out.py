@@ -3,8 +3,10 @@ import sys
 
 
 class ColouredSysOut(object):
+
     """
-    Class for make the sys out colorful
+        Class for make the sys out colorful
+
     """
 
     ANSI_COLOR_START = {
@@ -19,14 +21,17 @@ class ColouredSysOut(object):
 
     @classmethod
     def log_message(cls, message, color):
+
         """
-        Method to change the color of the log based on the input
-        @params cls: Class
-        @params message: Message to show
-        @params color: Color of the message
-        @return None
-        @prints Sys out message in specified color
+            Method to change the color of the log based on the input
+            @params cls: Class
+            @params message: Message to show
+            @params color: Color of the message
+            @return None
+            @prints Sys out message in specified color
+
         """
+
         color_start = cls.ANSI_COLOR_START.get(color, cls.ANSI_COLOR_START.get("default"))
         colored_message = f"\n{color_start}{message}{cls.ANSI_COLOR_END}\n"
         sys.stdout.write(colored_message)
