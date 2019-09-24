@@ -18,7 +18,6 @@ class ColouredSysOut(object):
 
     ANSI_COLOR_END = '\033[0m'
 
-
     @classmethod
     def log_message(cls, message, color):
 

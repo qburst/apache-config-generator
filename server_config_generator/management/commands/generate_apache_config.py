@@ -8,6 +8,7 @@ from django.template.loader import get_template
 
 from server_config_generator.coloured_sys_out import ColouredSysOut
 
+
 class Command(BaseCommand):
 
     """
@@ -21,9 +22,8 @@ class Command(BaseCommand):
     media_root = settings.MEDIA_ROOT
     base_dir = settings.BASE_DIR
 
-    
     help = "Management command to generate apache config automatically"
-    
+
     def handle(self, *args, **options):
 
         """
@@ -57,7 +57,7 @@ class Command(BaseCommand):
             Method to check where use input in a valid option
             @params user_input: Input from user
             @params valid_options: Array of valid options
-            @return Boolean: True if input is valid else false
+            @return Boolean: True, if input is valid else false
 
         """
 
@@ -73,7 +73,7 @@ class Command(BaseCommand):
 
             Method to check given input is valid ip
             @params user_input: Input from user
-            @return Boolean: True if it is valid ip else return false
+            @return Boolean: True, if it is valid ip else return false
 
         """
 
@@ -86,7 +86,7 @@ class Command(BaseCommand):
         """
 
             Method to recieve server name from the user
-            @params: Instance
+            @params self: Instance
             @return None
             Wait until user inputs servername
 
@@ -123,7 +123,7 @@ class Command(BaseCommand):
 
             Method to validate port number
             @params user_input: Input from user
-            @return Boolean: True if input is valid port else False
+            @return Boolean True, if input is valid port else False
 
         """
 
@@ -132,7 +132,6 @@ class Command(BaseCommand):
             return 1 <= port_number <= 65535
         except ValueError:
             return False
-
 
     def get_port(self):
 
@@ -159,8 +158,8 @@ class Command(BaseCommand):
         """
 
             Method to check if user static root and media root is configured
-            @params: Instance
-            @return: Boolean, True if both static and media root configured
+            @params self: Instance
+            @return Boolean, True if both static and media root configured
 
         """
 
@@ -172,14 +171,14 @@ class Command(BaseCommand):
             ColouredSysOut.log_message("Warning: Media root/url not configured", "yellow")
             has_warning = False
         return is_configured
-    
+
     def generate_conf_file(self):
 
         """
         
             Method to generate config file with servername
-            @params: Instance
-            @return: None
+            @params self: Instance
+            @return None
             Generates conf file with your django project name root folder
             ie if project name is test then test.conf is generated in root folder
 
