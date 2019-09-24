@@ -15,6 +15,14 @@ $ pip install django-server-config-generator
 ## Usage
 
  - Add **server_config_generator** in your installed app
+
+```python
+	INSTALLED_APPS = (
+        # other apps
+        "server_config_generator",
+    )
+```
+
  - Run **python manage.py generate_apache_config**
  - User will be prompted to enter the server name and make some confirmations
  - Verify if <server_name>.conf is generated in the root folder, server_name is entered by the user in the previous step
