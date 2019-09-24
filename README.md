@@ -14,7 +14,7 @@ $ pip install django-server-config-generator
  - Apache2.4
 ## Usage
 
- - Add server_config_generator to your installed app in the settings file
+ - Add server_config_generator to your installed app in the settings file, 
 
 ```python
 	INSTALLED_APPS = (
@@ -23,16 +23,16 @@ $ pip install django-server-config-generator
     )
 ```
 
- - Run **python manage.py generate_apache_config**
+ - Run **python manage.py generate_apache_config**, 
 ```bash
 	$ python manage.py generate_apache_config 
 ```
- - User will be prompted to enter the type of virtual hosting
+ - User will be prompted to enter the type of virtual hosting, 
 ```bash
 	Please enter name based or IP based hosting (name/ip):?
 ```
 - Enter a valid option and press 'Enter' key
-- Then the user will be prompted to enter the server name or the ip address based on the previous input
+- Then the user will be prompted to enter the server name or the ip address based on the previous input, 
 ```bash
 	Enter the server name:
 ```
@@ -41,12 +41,12 @@ OR
 	Enter your IP: 
 ```
 - Enter a valid server name or ip address
-- Then the user will be prompted to enter port number, default value for which will be 80
+- Then the user will be prompted to enter port number, default value for which will be 80, 
 ```bash
 	Enter the port (default:80):
 ```
-- Enter the required port number and press the 'Enter' key. In the case of a default value just press 'Enter' key
-- If STATIC_URL/STATIC_ROOT or MEDIA_URL/MEDIA_ROOT is not configured, then the user will be notified with a warning message and the system will wait for the user confirmation
+- Enter the required port number and press the 'Enter' key. In the case of the default value just press 'Enter' key
+- If STATIC_URL/STATIC_ROOT or MEDIA_URL/MEDIA_ROOT is not configured, then the user will be notified with a warning message and the system will wait for the user confirmation, 
 ```bash
 	Warning: Static root/url not configured
 	Warning: Media root/url not configured
@@ -54,7 +54,7 @@ OR
 	 1. Press q to quit 
 	 2. Press any key to continue 
 ```
-- Press 'Enter' key to continue else press "q" and press 'Enter' key
+- Press 'Enter' key to continue, else press "q" and press 'Enter' key
 - Verify the Apache config file generated in root folder with name as <your_projectname.conf>
 - Copy the the conf file to the Apache site-available folder
 - Run configtest command
