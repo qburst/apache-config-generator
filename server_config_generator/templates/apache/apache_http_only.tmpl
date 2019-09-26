@@ -45,7 +45,7 @@
 		</Files>
 	</Directory>
 
-	WSGIDaemonProcess {{ obj.project_name }} python-path={{ obj.base_dir }}:{{ obj.path_site_package }}
+	WSGIDaemonProcess {{ obj.project_name }} python-path={{ obj.base_dir }}:{{ obj.path_to_site_packages }}
 	WSGIProcessGroup {{ obj.project_name }}
 	WSGIScriptAlias / {{ obj.document_root }}/wsgi.py
 
