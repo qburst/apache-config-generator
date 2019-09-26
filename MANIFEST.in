@@ -1,0 +1,2 @@
+include LICENCE
+recursive-include server_config_generator/templates *
