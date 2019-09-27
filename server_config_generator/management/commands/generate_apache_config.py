@@ -38,6 +38,7 @@ class Command(BaseCommand):
         self.path_to_site_packages = sys.prefix + \
             "/lib/python{}.{}/site-packages".format(sys.version_info.major,
                 sys.version_info.minor)
+        self.get_https_details()
         self.generate_conf_file()
         ColouredSysOut.log_message("***Please verify {}.conf in root folder***".format(
             self.project_name), "blue")
@@ -156,3 +157,86 @@ class Command(BaseCommand):
         content = "\n\n".join(split)
         with open(self.project_name + ".conf" , 'w+') as config_file:
             config_file.writelines(content)
+
+
+    def get_https_details(self):
+        """
+        Method for get https details from user
+        @params self: Instance
+        @return None
+        """
+        ColouredSysOut.log_message("Do you want https ?", 'white')
+        user_input = input("\n 1. Press 'n' for no \n 2. Press any key to continue \n")
+        if self.validate_input_with_pre_defined_options(user_input, "n"):
+            return
+        self.https_required = True
+        ColouredSysOut.log_message("Do you automatic http to https redirect?", 'white')
+        user_input = input("\n 1. Press 'n' for no \n 2. Press any key to continue \n")
+        self.http_to_https_redirect_required = True
+        if self.validate_input_with_pre_defined_options(user_input, "n"):
+            self.http_to_https_redirect_required = False
+        self.get_certificate_details()
+
+
+    @staticmethod
+    def check_certificate_exists(certificate_path):
+        """
+        Method to check in certificate exists at given path
+        @params certificate_path: Path to certificate
+        return Boolean True if file exists else False
+        """
+        certificate_path = certificate_path.strip()
+        return os.path.exists(certificate_path)
+
+
+
+    def get_certificate_details(self):
+        """
+        Method for getting in https certificate from user
+        @params self: Instance
+        @return None
+        """
+        self.get_ssl_certificate_file()
+        self.get_ssl_certificate_key_file()
+        self.get_chain_file()
+
+
+    def get_ssl_certificate_file(self):
+        """
+        Method to get certificate file
+        @params self: Instance
+        @return None
+        """
+        self.ssl_file_path = None
+        while self.ssl_file_path is None:
+            certificate_path = input("\nEnter certificate path:")
+            if self.check_certificate_exists(certificate_path):
+                self.ssl_file_path = certificate_path
+            else:
+                ColouredSysOut.log_message("Certificate deos not exist", "red")
+
+
+    def get_ssl_certificate_key_file(self):
+        """
+        Method to get certificate key file
+        @params self: Instance
+        @return None
+        """
+        self.key_file_path = None
+        while self.key_file_path is None:
+            file_path = input("\nEnter certificate key path:")
+            if self.check_certificate_exists(file_path):
+                self.key_file_path = file_path
+            else:
+                ColouredSysOut.log_message("Certificate Key deos not exist", "red")
+
+
+    def get_chain_file(self):
+        """
+        Method to get chain file from user
+        @param self: Instance
+        @return None
+        """
+        pass
+
+
