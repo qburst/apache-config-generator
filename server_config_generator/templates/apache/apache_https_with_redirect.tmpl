@@ -3,6 +3,13 @@
 {% else %}
 <VirtualHost *:{{ obj.port }}>
 {% endif %}
+
+{% if obj.server_name %}
+    ServerName {{ obj.server_name }}
+{% else %}
+    #ServerName <Your servname here>
+{% endif %}
+
     RewriteEngine On
     RewriteCond %{HTTPS} off
     RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
