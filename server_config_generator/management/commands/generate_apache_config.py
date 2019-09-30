@@ -122,9 +122,9 @@ class Command(BaseCommand):
         port = None
         while port is None:
             if not is_https:
-                user_input = input("\nEnter the port (default:80):")
+                user_input = input("\nEnter the port (default:80): ")
             else:
-                user_input = input("\nEnter the port (default:443):")
+                user_input = input("\nEnter the port (default:443): ")
             if not user_input and not is_https:
                 self.port = 80
                 port = 80
@@ -183,7 +183,7 @@ class Command(BaseCommand):
         @params self: Instance
         @return None
         """
-        ColouredSysOut.log_message("Do you want https ?", 'white')
+        ColouredSysOut.log_message("Do you want https ? ", 'white')
         user_input = input("\n 1. Press 'n' for no \n 2. Press any key to continue \n")
         if self.validate_input_with_pre_defined_options(user_input, "n"):
             return
@@ -228,7 +228,7 @@ class Command(BaseCommand):
         """
         self.ssl_file_path = None
         while self.ssl_file_path is None:
-            certificate_path = input("\nEnter certificate path:")
+            certificate_path = input("\nEnter certificate path: ")
             if self.check_certificate_exists(certificate_path):
                 self.ssl_file_path = certificate_path
             else:
@@ -243,7 +243,7 @@ class Command(BaseCommand):
         """
         self.key_file_path = None
         while self.key_file_path is None:
-            file_path = input("\nEnter certificate key path:")
+            file_path = input("\nEnter certificate key path: ")
             if self.check_certificate_exists(file_path):
                 self.key_file_path = file_path
             else:
@@ -258,7 +258,7 @@ class Command(BaseCommand):
         """
         self.chain_file_path = None
         while self.chain_file_path is None:
-            file_path = input("\nEnter chain file path or press enter if no chain file:")
+            file_path = input("\nEnter chain file path or press enter if no chain file: ")
             if not file_path:
                 break
             if self.check_certificate_exists(file_path):
