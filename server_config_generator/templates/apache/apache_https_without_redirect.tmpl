@@ -1,0 +1,111 @@
+{% if obj.ip %}
+<VirtualHost {{ obj.ip }}:{{ obj.port }}>
+{% else %}
+<VirtualHost *:{{ obj.port }}>
+{% endif %}
+
+{% if obj.server_name %}
+	ServerName {{ obj.server_name }}
+{% else %}
+	#ServerName <Your servname here>
+{% endif %}
+
+	DocumentRoot {{ obj.document_root }}
+
+{% if obj.static_url and obj.static_root %}
+	Alias {{ obj.static_url }} {{ obj.static_root }} 
+	<Directory {{ obj.static_root }}>
+		Require all granted
+	</Directory>
+{% else %}
+	# Configure staticfile here
+	#Alias "<your static url>"  "<path to your static root>"
+	#<Directory  "<path to your static root>" >
+	#	Require all granted
+	#</Directory>
+{% endif %}
+
+{% if obj.media_url and obj.media_root %}
+	Alias {{ obj.media_url }} {{ obj.media_root }} 
+	<Directory {{ obj.media_root }}>
+		Require all granted
+	</Directory>
+{% else %}
+	# Configure mediafiles here
+	#Alias "<your media url>" "<path to your media root>" 
+	#<Directory "<path to your media root>" >
+	#	Require all granted
+	#</Directory>
+{% endif %}
+
+
+	<Directory {{ obj.document_root }}>
+		<Files wsgi.py>
+			Require all granted
+		</Files>
+	</Directory>
+
+	WSGIDaemonProcess {{ obj.project_name }} python-path={{ obj.base_dir }}:{{ obj.path_to_site_packages }}
+	WSGIProcessGroup {{ obj.project_name }}
+	WSGIScriptAlias / {{ obj.document_root }}/wsgi.py
+
+</VirtualHost>
+
+{% if obj.ip %}
+<VirtualHost {{ obj.ip }}:{{ obj.port_https }}>
+{% else %}
+<VirtualHost *:{{ obj.port_https }}>
+{% endif %}
+    SSLEngine on
+
+{% if obj.server_name %}
+    ServerName {{ obj.server_name }}
+{% else %}
+    #ServerName <Your servname here>
+{% endif %}
+
+    DocumentRoot {{ obj.document_root }}
+
+{% if obj.static_url and obj.static_root %}
+    Alias {{ obj.static_url }} {{ obj.static_root }} 
+    <Directory {{ obj.static_root }}>
+        Require all granted
+    </Directory>
+{% else %}
+    # Configure staticfile here
+    #Alias "<your static url>"  "<path to your static root>"
+    #<Directory  "<path to your static root>" >
+    #   Require all granted
+    #</Directory>
+{% endif %}
+
+{% if obj.media_url and obj.media_root %}
+    Alias {{ obj.media_url }} {{ obj.media_root }} 
+    <Directory {{ obj.media_root }}>
+        Require all granted
+    </Directory>
+{% else %}
+    # Configure mediafiles here
+    #Alias "<your media url>" "<path to your media root>" 
+    #<Directory "<path to your media root>" >
+    #   Require all granted
+    #</Directory>
+{% endif %}
+
+    <Directory {{ obj.document_root }}>
+        <Files wsgi.py>
+            Require all granted
+        </Files>
+    </Directory>
+
+    WSGIDaemonProcess {{ obj.project_name }}_https python-path={{ obj.base_dir }}:{{ obj.path_to_site_packages }}
+    WSGIProcessGroup {{ obj.project_name }}_https
+    WSGIScriptAlias / {{ obj.document_root }}/wsgi.py
+
+    SSLCertificateFile {{ obj.ssl_file_path }}
+    SSLCertificateKeyFile {{ obj.key_file_path }}
+{% if obj.chain_file_path %}
+    SSLCertificateChainFile {{ obj.chain_file_path }}
+{% endif %}
+
+</VirtualHost>
