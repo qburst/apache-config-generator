@@ -40,6 +40,7 @@ class Command(BaseCommand):
                 sys.version_info.minor)
         self.get_https_details()
         self.generate_conf_file()
+        print(self.__dict__)
         ColouredSysOut.log_message("***Please verify {}.conf in root folder***".format(
             self.project_name), "blue")
 
@@ -111,21 +112,33 @@ class Command(BaseCommand):
         except ValueError:
             return False
 
-    def get_port(self):
+    def get_port(self, is_https=False):
         """
         Method to recieve port from user
         @params self: Instance
+        @params is_https: Boolean for differentiate between http and https
         @return None
         """
-        self.port = None
-        while self.port is None:
-            user_input = input("\nEnter the port (default:80):")
-            if not user_input:
+        port = None
+        while port is None:
+            if not is_https:
+                user_input = input("\nEnter the port (default:80):")
+            else:
+                user_input = input("\nEnter the port (default:443):")
+            if not user_input and not is_https:
                 self.port = 80
+                port = 80
+            elif not user_input and is_https:
+                self.port_https = 443
+                port = 443
             elif not self.validate_port(user_input):
                 ColouredSysOut.log_message("Please enter valid Port", "red")
             else:
-                self.port = int(user_input)
+                if is_https:
+                    self.port_https = int(user_input)
+                else:
+                    self.port = int(user_input)
+                port = int(user_input)
 
     def check_static_and_media_root_configured(self):
         """
@@ -150,7 +163,12 @@ class Command(BaseCommand):
         Generates conf file with your django project name root folder
         ie if project name is test then test.conf is generated in root folder
         """
-        template = get_template('apache/apache_http_only.tmpl')
+        if not self.https_required:
+            template = get_template('apache/apache_http_only.tmpl')
+        elif self.https_required and self.http_to_https_redirect_required:
+            template = get_template('apache/apache_https_with_redirect.tmpl')
+        else:
+            template = get_template('apache/apache_https_without_redirect.tmpl')
         content = template.render({"obj": self})
         split = content.split('\n')
         split = list(filter(None, split))
@@ -176,6 +194,7 @@ class Command(BaseCommand):
         if self.validate_input_with_pre_defined_options(user_input, "n"):
             self.http_to_https_redirect_required = False
         self.get_certificate_details()
+        self.get_port(is_https=True)
 
 
     @staticmethod
@@ -228,7 +247,7 @@ class Command(BaseCommand):
             if self.check_certificate_exists(file_path):
                 self.key_file_path = file_path
             else:
-                ColouredSysOut.log_message("Certificate Key deos not exist", "red")
+                ColouredSysOut.log_message("Certificate Key does not exist", "red")
 
 
     def get_chain_file(self):
@@ -237,6 +256,12 @@ class Command(BaseCommand):
         @param self: Instance
         @return None
         """
-        pass
-
-
+        self.chain_file_path = None
+        while self.chain_file_path is None:
+            file_path = input("\nEnter chain file path or press enter if no chain file:")
+            if not file_path:
+                break
+            if self.check_certificate_exists(file_path):
+                self.chain_file_path = file_path
+            else:
+                ColouredSysOut.log_message("Chain file does not exist", "red")
