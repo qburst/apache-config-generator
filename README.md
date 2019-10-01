@@ -55,6 +55,42 @@ OR
 	 2. Press any key to continue 
 ```
 - Press 'Enter' key to continue, else press "q" and press 'Enter' key
+- Then user will prompt for https configuration
+```bash
+	Do you want https ? 
+
+ 	 1. Press 'n' for no 
+ 	 2. Press any key to continue 
+```
+- Press Any key if you want to configure https else press 'n' and enter
+- Then use will prompt for automatic redirect from http to https
+```bash
+	Do you automatic http to https redirect?
+
+	 1. Press 'n' for no 
+ 	 2. Press any key to continue
+```
+- Press Any key if you want to configure https else press 'n' and enter
+- User will be prompted for path to certificate file
+```bash
+	Enter certificate path:
+```
+- Enter full path to certificate
+- Then user will be prompted for the path to key file
+```bash
+	Enter certificate key path:
+```
+- Enter full path to key file
+- Then user will be prompted for the path to chain file
+```bash
+	Enter chain file path or press enter if no chain file
+```
+- If you have chain file enter the path to chain file else press enter
+- Then user will be prompted for the https port
+```bash
+	Enter the port (default:443):
+```
+- If you are using different port than default port enter port else press Enter
 - Verify the Apache config file generated in root folder with name as <your_projectname.conf>
 - Copy the the conf file to the Apache site-available folder
 - Run configtest command

@@ -40,7 +40,6 @@ class Command(BaseCommand):
                 sys.version_info.minor)
         self.get_https_details()
         self.generate_conf_file()
-        print(self.__dict__)
         ColouredSysOut.log_message("***Please verify {}.conf in root folder***".format(
             self.project_name), "blue")
 
@@ -186,6 +185,7 @@ class Command(BaseCommand):
         ColouredSysOut.log_message("Do you want https ? ", 'white')
         user_input = input("\n 1. Press 'n' for no \n 2. Press any key to continue \n")
         if self.validate_input_with_pre_defined_options(user_input, "n"):
+            self.https_required = False
             return
         self.https_required = True
         ColouredSysOut.log_message("Do you automatic http to https redirect?", 'white')
