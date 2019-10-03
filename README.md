@@ -14,7 +14,7 @@ $ pip install django-server-config-generator
  - Apache2.4
 ## Usage
 
- - Add server_config_generator to your installed app in the settings file, 
+ - Add server_config_generator to the installed app in the settings file, 
 
 ```python
 	INSTALLED_APPS = (
