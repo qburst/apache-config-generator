@@ -9,7 +9,8 @@ class ColouredSysOut(object):
     ANSI_COLOR_START = {
         'blue': '\033[34m', # Blue Ansi
         'yellow': '\033[33m', #Yellow
-        'red': '\033[1;31m', #Bold red
+        'red': '\033[1;31m', #Bold red,
+        'white': '\u001b[37m', #White
         'default': '\u001b[37m' #White
     }
 
