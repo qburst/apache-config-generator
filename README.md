@@ -1,7 +1,7 @@
-# Django Server Config Generator
+# Apache Config Generator
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django-server-config-generator) ![PyPI - License](https://img.shields.io/pypi/l/django-server-config-generator)
 
-Django server config generator is a simple django extension which generates apache config by running a management command, It automatically detects document root, static root/url, media root/url, and also the path to the current running virtual environment.
+ Apache config generator is a simple django extension which generates apache config by running a management command, It automatically detects document root, static root/url, media root/url, and also the path to the current running virtual environment.
 
 ## Installation
 
